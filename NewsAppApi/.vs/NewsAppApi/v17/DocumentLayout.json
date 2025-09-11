@@ -3,15 +3,20 @@
   "WorkspaceRootPath": "E:\\News-App\\News-App-API\\NewsAppApi\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\controllers\\articlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|solutionrelative:controllers\\articlescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB25125-2DE4-4068-9A4A-522C2BAD3913}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB25125-2DE4-4068-9A4A-522C2BAD3913}|NewsAppApi.csproj|solutionrelative:controllers\\reportscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\controllers\\bookmarkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|solutionrelative:controllers\\bookmarkscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EEB25125-2DE4-4068-9A4A-522C2BAD3913}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EEB25125-2DE4-4068-9A4A-522C2BAD3913}|NewsAppApi.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\controllers\\readhistorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|solutionrelative:controllers\\readhistorycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|e:\\news-app\\news-app-api\\newsappapi\\controllers\\tagscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1C5D88F0-1080-4A26-98BF-E6A85352E7F1}|NewsAppApi.csproj|solutionrelative:controllers\\tagscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -21,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -33,39 +38,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Microsoft.Common.CurrentVersion.targets",
-              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
-              "ViewState": "AgIAAPcUAAAAAAAAAAAgwBUVAAAjAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
-              "WhenOpened": "2025-08-29T01:56:34.53Z",
+              "DocumentIndex": 1,
+              "Title": "BookmarksController.cs",
+              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\BookmarksController.cs",
+              "RelativeDocumentMoniker": "Controllers\\BookmarksController.cs",
+              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\BookmarksController.cs",
+              "RelativeToolTip": "Controllers\\BookmarksController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T03:50:07.463Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ReportsController.cs",
-              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ReportsController.cs",
-              "RelativeDocumentMoniker": "Controllers\\ReportsController.cs",
-              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ReportsController.cs",
-              "RelativeToolTip": "Controllers\\ReportsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "TagsController.cs",
+              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\TagsController.cs",
+              "RelativeDocumentMoniker": "Controllers\\TagsController.cs",
+              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\TagsController.cs",
+              "RelativeToolTip": "Controllers\\TagsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T10:02:20.826Z",
+              "WhenOpened": "2025-09-11T03:49:49.581Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Program.cs",
-              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAABQAAAAAAAAAA==",
+              "Title": "ReadHistoryController.cs",
+              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ReadHistoryController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ReadHistoryController.cs",
+              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ReadHistoryController.cs",
+              "RelativeToolTip": "Controllers\\ReadHistoryController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-28T03:58:05.189Z"
+              "WhenOpened": "2025-09-11T03:49:45.355Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ArticlesController.cs",
+              "DocumentMoniker": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ArticlesController.cs",
+              "RelativeDocumentMoniker": "Controllers\\ArticlesController.cs",
+              "ToolTip": "E:\\News-App\\News-App-API\\NewsAppApi\\Controllers\\ArticlesController.cs",
+              "RelativeToolTip": "Controllers\\ArticlesController.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAIwD4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-11T03:43:58.675Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -1,15 +1,10 @@
-﻿using NewsAppApi.Models.DTOs;
-
-namespace NewsAppApi.Services.Interfaces
+﻿namespace NewsAppApi.Services.Interfaces
 {
     public interface IUserService
     {
         Task<PagedResult<UserDto>> GetPagedAsync(
             int page = 1, int pageSize = 10,
             string? sortBy = null, string sortDir = "desc", string? keyword = null);
-
-        Task<PagedResult<UserDto>> GetPagedAsync(UserFilter filter);
-        Task<string> ExportCsvAsync(UserFilter filter);
 
         Task<List<UserDto>> GetAllAsync();
         Task<UserDto?> GetByIdAsync(int id);

@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NewsAppApi.Core.Entities;
 using NewsAppApi.Data.Contexts;
-using NewsAppApi.Models.DTOs;
-using NewsAppApi.Models.Entities;
 using NewsAppApi.Services.Interfaces;
-using NewsAppApi.Utils;
-using System.Globalization;
 
 namespace NewsAppApi.Services.Implementations
 {
@@ -20,18 +17,6 @@ namespace NewsAppApi.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<List<UserDto>> GetAllAsync()
-        {
-            var users = await _db.Users.AsNoTracking().ToListAsync();
-            return _mapper.Map<List<UserDto>>(users);
-        }
-
-        public async Task<UserDto?> GetByIdAsync(int id)
-        {
-            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
-            return user is null ? null : _mapper.Map<UserDto>(user);
-        }
-
         public async Task<UserDto> CreateAsync(UserCreateDto dto)
         {
             // unique email kiểm tra nhanh
@@ -40,30 +25,15 @@ namespace NewsAppApi.Services.Implementations
 
             var entity = new User
             {
-                FullName = dto.FullName,
+                FullName = dto.FullName!,
                 Email = dto.Email,
-                Password = dto.Password,
+                PasswordHash = dto.Password,
                 Role = (dto.Role == "Admin" || dto.Role == "User") ? dto.Role : "User"
             };
 
             _db.Users.Add(entity);
             await _db.SaveChangesAsync();
             return _mapper.Map<UserDto>(entity);
-        }
-
-        public async Task<UserDto?> UpdateAsync(int id, UserUpdateDto dto)
-        {
-            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
-            if (user is null) return null;
-
-            if (!string.IsNullOrWhiteSpace(dto.FullName))
-                user.FullName = dto.FullName;
-
-            if (!string.IsNullOrWhiteSpace(dto.Role))
-                user.Role = (dto.Role == "Admin" || dto.Role == "User") ? dto.Role : user.Role;
-
-            await _db.SaveChangesAsync();
-            return _mapper.Map<UserDto>(user);
         }
 
         public async Task<bool> DeleteAsync(int id)
@@ -76,13 +46,25 @@ namespace NewsAppApi.Services.Implementations
             return true;
         }
 
+        public async Task<List<UserDto>> GetAllAsync()
+        {
+            var users = await _db.Users.AsNoTracking().ToListAsync();
+            return _mapper.Map<List<UserDto>>(users);
+        }
+
+        public async Task<UserDto?> GetByIdAsync(int id)
+        {
+            var user = await _db.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id);
+            return user is null ? null : _mapper.Map<UserDto>(user);
+        }
+
         public async Task<UserDto?> LoginAsync(UserLoginDto dto)
         {
             var user = await _db.Users.FirstOrDefaultAsync(x => x.Email == dto.Email);
             if (user is null) return null;
 
             // So sánh trực tiếp mật khẩu thuần
-            if (user.Password == dto.Password)
+            if (user.PasswordHash == dto.Password)
             {
                 return _mapper.Map<UserDto>(user);
             }
@@ -122,83 +104,19 @@ namespace NewsAppApi.Services.Implementations
             return new PagedResult<UserDto>(page, pageSize, total, _mapper.Map<List<UserDto>>(items));
         }
 
-        public async Task<PagedResult<UserDto>> GetPagedAsync(UserFilter filter)
+        public async Task<UserDto?> UpdateAsync(int id, UserUpdateDto dto)
         {
-            var q = _db.Users.AsNoTracking();
+            var user = await _db.Users.FirstOrDefaultAsync(x => x.Id == id);
+            if (user is null) return null;
 
-            if (!string.IsNullOrWhiteSpace(filter.Keyword))
-            {
-                var k = filter.Keyword.Trim();
-                q = q.Where(u =>
-                    (u.FullName ?? "").Contains(k) ||
-                    (u.Email ?? "").Contains(k) ||
-                    (u.Role ?? "").Contains(k));
-            }
+            if (!string.IsNullOrWhiteSpace(dto.FullName))
+                user.FullName = dto.FullName;
 
-            if (!string.IsNullOrWhiteSpace(filter.Role))
-                q = q.Where(u => u.Role == filter.Role);
+            if (!string.IsNullOrWhiteSpace(dto.Role))
+                user.Role = (dto.Role == "Admin" || dto.Role == "User") ? dto.Role : user.Role;
 
-            if (filter.CreatedFrom.HasValue)
-                q = q.Where(u => u.CreatedAt >= filter.CreatedFrom.Value);
-
-            if (filter.CreatedTo.HasValue)
-                q = q.Where(u => u.CreatedAt <= filter.CreatedTo.Value);
-
-            var sortBy = (filter.SortBy ?? "createdAt").ToLowerInvariant();
-            var desc = filter.SortDir.Equals("desc", StringComparison.OrdinalIgnoreCase);
-
-            q = sortBy switch
-            {
-                "fullname" => (desc ? q.OrderByDescending(x => x.FullName) : q.OrderBy(x => x.FullName)),
-                "email" => (desc ? q.OrderByDescending(x => x.Email) : q.OrderBy(x => x.Email)),
-                "role" => (desc ? q.OrderByDescending(x => x.Role) : q.OrderBy(x => x.Role)),
-                "id" => (desc ? q.OrderByDescending(x => x.Id) : q.OrderBy(x => x.Id)),
-                _ => (desc ? q.OrderByDescending(x => x.CreatedAt) : q.OrderBy(x => x.CreatedAt))
-            };
-
-            var total = await q.CountAsync();
-            var items = await q
-                .Skip((filter.Page - 1) * filter.PageSize)
-                .Take(filter.PageSize)
-                .ToListAsync();
-
-            return new PagedResult<UserDto>(filter.Page, filter.PageSize, total, _mapper.Map<List<UserDto>>(items));
-        }
-
-        public async Task<string> ExportCsvAsync(UserFilter filter)
-        {
-            // Lấy toàn bộ phù hợp filter, không phân trang
-            var q = _db.Users.AsNoTracking();
-
-            if (!string.IsNullOrWhiteSpace(filter.Keyword))
-            {
-                var k = filter.Keyword.Trim();
-                q = q.Where(u =>
-                    (u.FullName ?? "").Contains(k) ||
-                    (u.Email ?? "").Contains(k) ||
-                    (u.Role ?? "").Contains(k));
-            }
-            if (!string.IsNullOrWhiteSpace(filter.Role))
-                q = q.Where(u => u.Role == filter.Role);
-            if (filter.CreatedFrom.HasValue)
-                q = q.Where(u => u.CreatedAt >= filter.CreatedFrom.Value);
-            if (filter.CreatedTo.HasValue)
-                q = q.Where(u => u.CreatedAt <= filter.CreatedTo.Value);
-
-            var list = await q
-                .OrderBy(u => u.Id)
-                .ToListAsync();
-
-            var cols = new List<(string, Func<User, string>)>
-            {
-                ("Id", u => u.Id.ToString()),
-                ("FullName", u => u.FullName ?? ""),
-                ("Email", u => u.Email ?? ""),
-                ("Role", u => u.Role ?? ""),
-                ("CreatedAt", u => u.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture))
-            };
-
-            return CsvUtil.ToCsv(list, cols);
+            await _db.SaveChangesAsync();
+            return _mapper.Map<UserDto>(user);
         }
     }
 }

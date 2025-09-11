@@ -1,7 +1,4 @@
 ﻿using FluentValidation;
-using NewsAppApi.Models.DTOs;
-
-namespace NewsAppApi.Validators;
 
 public class TagCreateValidator : AbstractValidator<TagCreateDto>
 {

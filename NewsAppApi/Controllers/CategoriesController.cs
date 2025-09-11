@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NewsAppApi.Models.DTOs;
 using NewsAppApi.Services.Interfaces;
 
 namespace NewsAppApi.Controllers
@@ -21,7 +20,7 @@ namespace NewsAppApi.Controllers
             return item is null ? NotFound() : Ok(item);
         }
 
-        [HttpGet]
+        [HttpGet("search")]
         public async Task<IActionResult> GetPaged(
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10,
@@ -31,24 +30,6 @@ namespace NewsAppApi.Controllers
         {
             var result = await _svc.GetPagedAsync(page, pageSize, sortBy, sortDir, keyword);
             return Ok(result);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> GetPaged([FromQuery] CategoryFilter filter)
-        {
-            filter.Page = Math.Max(1, filter.Page);
-            filter.PageSize = Math.Clamp(filter.PageSize, 1, 200);
-
-            var result = await _svc.GetPagedAsync(filter);
-            return Ok(result);
-        }
-
-        [HttpGet("export")]
-        public async Task<IActionResult> Export([FromQuery] CategoryFilter filter)
-        {
-            var csv = await _svc.ExportCsvAsync(filter);
-            var fileName = $"categories_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv";
-            return File(System.Text.Encoding.UTF8.GetBytes(csv), "text/csv", fileName);
         }
 
         [HttpPost]

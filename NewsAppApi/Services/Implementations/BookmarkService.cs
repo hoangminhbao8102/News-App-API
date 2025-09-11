@@ -1,11 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using NewsAppApi.Core.Entities;
 using NewsAppApi.Data.Contexts;
-using NewsAppApi.Models.DTOs;
-using NewsAppApi.Models.Entities;
 using NewsAppApi.Services.Interfaces;
-using NewsAppApi.Utils;
-using System.Globalization;
 
 namespace NewsAppApi.Services.Implementations
 {
@@ -18,16 +15,6 @@ namespace NewsAppApi.Services.Implementations
         {
             _db = db;
             _mapper = mapper;
-        }
-
-        public async Task<List<BookmarkDto>> GetAllByUserAsync(int userId)
-        {
-            var items = await _db.Bookmarks.AsNoTracking()
-                .Where(b => b.UserId == userId)
-                .OrderByDescending(b => b.CreatedAt)
-                .ToListAsync();
-
-            return _mapper.Map<List<BookmarkDto>>(items);
         }
 
         public async Task<BookmarkDto> CreateAsync(BookmarkCreateDto dto)
@@ -52,36 +39,14 @@ namespace NewsAppApi.Services.Implementations
             return true;
         }
 
-        public async Task<string> ExportCsvAsync(BookmarkFilter filter)
+        public async Task<List<BookmarkDto>> GetAllByUserAsync(int userId)
         {
-            var q = _db.Bookmarks
-                .AsNoTracking()
-                .Include(b => b.User)
-                .Include(b => b.Article)
-                .AsQueryable();
+            var items = await _db.Bookmarks.AsNoTracking()
+                .Where(b => b.UserId == userId)
+                .OrderByDescending(b => b.CreatedAt)
+                .ToListAsync();
 
-            if (filter.UserId.HasValue)
-                q = q.Where(b => b.UserId == filter.UserId.Value);
-
-            if (filter.CreatedFrom.HasValue)
-                q = q.Where(b => b.CreatedAt >= filter.CreatedFrom.Value);
-
-            if (filter.CreatedTo.HasValue)
-                q = q.Where(b => b.CreatedAt <= filter.CreatedTo.Value);
-
-            var list = await q.OrderBy(b => b.CreatedAt).ToListAsync();
-
-            var cols = new List<(string Header, Func<Bookmark, string> Selector)>
-            {
-                ("Id",         b => b.Id.ToString()),
-                ("UserId",     b => b.UserId?.ToString() ?? ""),
-                ("UserName",   b => b.User?.FullName ?? ""),
-                ("ArticleId",  b => b.ArticleId?.ToString() ?? ""),
-                ("Article",    b => b.Article?.Title ?? ""),
-                ("CreatedAt",  b => b.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture))
-            };
-
-            return CsvUtil.ToCsv(list, cols);
+            return _mapper.Map<List<BookmarkDto>>(items);
         }
     }
 }

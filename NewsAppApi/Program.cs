@@ -5,7 +5,6 @@ using NewsAppApi.Data.Contexts;
 using NewsAppApi.Data.Mappings;
 using NewsAppApi.Services.Implementations;
 using NewsAppApi.Services.Interfaces;
-using NewsAppApi.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,13 +13,9 @@ builder.Services.AddControllers();
 
 // ===== FluentValidation =====
 builder.Services
-    .AddFluentValidationAutoValidation()          // Bật auto validation
-    .AddFluentValidationClientsideAdapters();     // Bật client-side adapter
-
-// Đăng ký validators trong assembly
+    .AddFluentValidationAutoValidation()
+    .AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<UserCreateValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<ArticleFilterValidator>();
-builder.Services.AddValidatorsFromAssemblyContaining<BookmarkFilterValidator>();
 
 // ===== DbContext =====
 var connStr = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -28,7 +23,7 @@ builder.Services.AddDbContext<NewsAppDbContext>(options =>
     options.UseSqlServer(connStr));
 
 // ===== AutoMapper =====
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
 
 // ===== Register Services DI =====
 builder.Services.AddScoped<IUserService, UserService>();

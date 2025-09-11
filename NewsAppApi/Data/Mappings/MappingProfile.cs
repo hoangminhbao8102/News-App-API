@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
-using NewsAppApi.Models.DTOs;
-using NewsAppApi.Models.Entities;
+using NewsAppApi.Core.Entities;
 
 namespace NewsAppApi.Data.Mappings
 {
@@ -19,7 +18,7 @@ namespace NewsAppApi.Data.Mappings
 
             // Article
             CreateMap<Article, ArticleDto>()
-                .ForMember(d => d.AuthorName, m => m.MapFrom(s => s.Author != null ? s.Author.FullName : null))
+                .ForMember(d => d.UserName, m => m.MapFrom(s => s.User != null ? s.User.FullName : null))
                 .ForMember(d => d.CategoryName, m => m.MapFrom(s => s.Category != null ? s.Category.Name : null))
                 .ForMember(d => d.Tags, m => m.MapFrom(s =>
                     s.ArticleTags.Select(at => new TagDto(at.TagId, at.Tag.Name)).ToList()

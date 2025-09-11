@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NewsAppApi.Models.DTOs;
 using NewsAppApi.Services.Interfaces;
-using System.Text;
 
 namespace NewsAppApi.Controllers
 {
@@ -25,16 +23,6 @@ namespace NewsAppApi.Controllers
         {
             var ok = await _svc.DeleteAsync(id);
             return ok ? NoContent() : NotFound();
-        }
-
-        // NEW: export CSV
-        // GET /api/Bookmarks/export?userId=2&createdFrom=2025-01-01&createdTo=2025-12-31
-        [HttpGet("export")]
-        public async Task<IActionResult> Export([FromQuery] BookmarkFilter filter)
-        {
-            var csv = await _svc.ExportCsvAsync(filter);
-            var fileName = $"bookmarks_{DateTime.UtcNow:yyyyMMdd_HHmmss}.csv";
-            return File(Encoding.UTF8.GetBytes(csv), "text/csv", fileName);
         }
     }
 }

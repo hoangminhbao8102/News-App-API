@@ -22,7 +22,7 @@ namespace NewsAppApi.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Article", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Article", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -30,13 +30,11 @@ namespace NewsAppApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("AuthorId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("CategoryId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<string>("Content")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -53,48 +51,19 @@ namespace NewsAppApi.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AuthorId");
+                    b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Articles");
+                    b.HasIndex("UserId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AuthorId = 1,
-                            CategoryId = 1,
-                            Content = "Nội dung bài viết về AI...",
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ImageUrl = "/images/ai.png",
-                            Title = "AI đang thay đổi thế giới"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AuthorId = 2,
-                            CategoryId = 2,
-                            Content = "Nội dung thể thao...",
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ImageUrl = "/images/football.png",
-                            Title = "Chung kết bóng đá quốc gia"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AuthorId = 3,
-                            CategoryId = 3,
-                            Content = "Mẹo sống khỏe...",
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            ImageUrl = "/images/health.png",
-                            Title = "Sống khỏe mỗi ngày"
-                        });
+                    b.ToTable("Articles");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.ArticleTag", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.ArticleTag", b =>
                 {
                     b.Property<int>("ArticleId")
                         .HasColumnType("int");
@@ -107,31 +76,9 @@ namespace NewsAppApi.Migrations
                     b.HasIndex("TagId");
 
                     b.ToTable("ArticlesTags");
-
-                    b.HasData(
-                        new
-                        {
-                            ArticleId = 1,
-                            TagId = 1
-                        },
-                        new
-                        {
-                            ArticleId = 1,
-                            TagId = 2
-                        },
-                        new
-                        {
-                            ArticleId = 2,
-                            TagId = 3
-                        },
-                        new
-                        {
-                            ArticleId = 3,
-                            TagId = 4
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Bookmark", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Bookmark", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -139,7 +86,7 @@ namespace NewsAppApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArticleId")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -147,7 +94,7 @@ namespace NewsAppApi.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -157,31 +104,20 @@ namespace NewsAppApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bookmarks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArticleId = 1,
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArticleId = 2,
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 3
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Category", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Description")
                         .HasMaxLength(255)
@@ -195,29 +131,9 @@ namespace NewsAppApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Description = "Tin tức công nghệ",
-                            Name = "Technology"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Description = "Thể thao",
-                            Name = "Sports"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Description = "Đời sống",
-                            Name = "Lifestyle"
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.ReadHistory", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.ReadHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -225,7 +141,7 @@ namespace NewsAppApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ArticleId")
+                    b.Property<int>("ArticleId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("ReadAt")
@@ -233,7 +149,7 @@ namespace NewsAppApi.Migrations
                         .HasColumnType("datetime2")
                         .HasDefaultValueSql("GETUTCDATE()");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -243,32 +159,9 @@ namespace NewsAppApi.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("ReadHistory");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ArticleId = 1,
-                            ReadAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ArticleId = 2,
-                            ReadAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 2
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ArticleId = 3,
-                            ReadAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 3
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Tag", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -284,31 +177,9 @@ namespace NewsAppApi.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tags");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "AI"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "Cloud"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "Football"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "Health"
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.User", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -322,14 +193,17 @@ namespace NewsAppApi.Migrations
                         .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FullName")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .HasColumnType("nvarchar(255)");
 
@@ -341,65 +215,39 @@ namespace NewsAppApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("Email")
-                        .IsUnique()
-                        .HasFilter("[Email] IS NOT NULL");
+                        .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "admin@example.com",
-                            FullName = "Admin User",
-                            Password = "admin",
-                            Role = "Admin"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "alice@example.com",
-                            FullName = "Alice Nguyen",
-                            Password = "alice-nguyen",
-                            Role = "User"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            CreatedAt = new DateTime(2025, 8, 1, 0, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "bob@example.com",
-                            FullName = "Bob Tran",
-                            Password = "bob-tran",
-                            Role = "User"
-                        });
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Article", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Article", b =>
                 {
-                    b.HasOne("NewsAppApi.Models.Entities.User", "Author")
-                        .WithMany("AuthoredArticles")
-                        .HasForeignKey("AuthorId");
-
-                    b.HasOne("NewsAppApi.Models.Entities.Category", "Category")
+                    b.HasOne("NewsAppApi.Core.Entities.Category", "Category")
                         .WithMany("Articles")
-                        .HasForeignKey("CategoryId");
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Author");
+                    b.HasOne("NewsAppApi.Core.Entities.User", "User")
+                        .WithMany("AuthoredArticles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Category");
+
+                    b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.ArticleTag", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.ArticleTag", b =>
                 {
-                    b.HasOne("NewsAppApi.Models.Entities.Article", "Article")
+                    b.HasOne("NewsAppApi.Core.Entities.Article", "Article")
                         .WithMany("ArticleTags")
                         .HasForeignKey("ArticleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("NewsAppApi.Models.Entities.Tag", "Tag")
+                    b.HasOne("NewsAppApi.Core.Entities.Tag", "Tag")
                         .WithMany("ArticleTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -410,37 +258,45 @@ namespace NewsAppApi.Migrations
                     b.Navigation("Tag");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Bookmark", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Bookmark", b =>
                 {
-                    b.HasOne("NewsAppApi.Models.Entities.Article", "Article")
+                    b.HasOne("NewsAppApi.Core.Entities.Article", "Article")
                         .WithMany("Bookmarks")
-                        .HasForeignKey("ArticleId");
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("NewsAppApi.Models.Entities.User", "User")
+                    b.HasOne("NewsAppApi.Core.Entities.User", "User")
                         .WithMany("Bookmarks")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Article");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.ReadHistory", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.ReadHistory", b =>
                 {
-                    b.HasOne("NewsAppApi.Models.Entities.Article", "Article")
+                    b.HasOne("NewsAppApi.Core.Entities.Article", "Article")
                         .WithMany("ReadHistories")
-                        .HasForeignKey("ArticleId");
+                        .HasForeignKey("ArticleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.HasOne("NewsAppApi.Models.Entities.User", "User")
+                    b.HasOne("NewsAppApi.Core.Entities.User", "User")
                         .WithMany("ReadHistories")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Article");
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Article", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Article", b =>
                 {
                     b.Navigation("ArticleTags");
 
@@ -449,17 +305,17 @@ namespace NewsAppApi.Migrations
                     b.Navigation("ReadHistories");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Category", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Category", b =>
                 {
                     b.Navigation("Articles");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.Tag", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.Tag", b =>
                 {
                     b.Navigation("ArticleTags");
                 });
 
-            modelBuilder.Entity("NewsAppApi.Models.Entities.User", b =>
+            modelBuilder.Entity("NewsAppApi.Core.Entities.User", b =>
                 {
                     b.Navigation("AuthoredArticles");
 
